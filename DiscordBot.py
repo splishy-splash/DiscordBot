@@ -3,7 +3,7 @@ from discord.ext import commands
 import GoogleAPI
 import Scheduler
 import IdiomOTD
-
+import IMDb
 
 with open('token.txt', 'r') as f:
     DiscordBotToken = f.readline()
@@ -17,9 +17,14 @@ client = commands.Bot(command_prefix='!')
 scheduler = Scheduler.start_scheduler()
 
 
-async def send_msg(channelID, text):
-    channel = client.get_channel(channelID)
-    await channel.send(text)
+# async def send_msg(channelID, text):
+#     channel = client.get_channel(channelID)
+#     await channel.send(text)
+
+
+@client.command()
+async def imdb(ctx, *args):
+    await ctx.send(IMDb.parse_input(args))
 
 
 @client.event
