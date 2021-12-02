@@ -7,9 +7,12 @@ from datetime import *
 from dateutil import tz
 
 from dateutil.parser import *
-from google.oauth2.credentials import Credentials
+import datetime
+import os.path
 from googleapiclient.discovery import build
-
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
 
 from_zone = tz.gettz('UTC')
 to_zone = tz.gettz('America/New_York')
@@ -51,7 +54,7 @@ def google_auth():
 
 def check_schedule(service, calendarId):
     # Call the Calendar API
-    now = datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+    now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
     events_result = service.events().list(calendarId='primary', timeMin=now,
                                           maxResults=10, singleEvents=True,
                                           orderBy='startTime').execute()

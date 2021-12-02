@@ -1,9 +1,11 @@
-import os
 from discord.ext import commands
+
+#These are local modules
 import GoogleAPI
-import Scheduler
-import IdiomOTD
 import IMDb
+import IdiomOTD
+import Scheduler
+import weather
 
 with open('token.txt', 'r') as f:
     DiscordBotToken = f.readline()
@@ -11,15 +13,11 @@ with open('token.txt', 'r') as f:
 with open('channel_id.txt', 'r') as f:
     channel_id = int(f.readline())
 
+
 calendarId = 'primary'
 
 client = commands.Bot(command_prefix='!')
 scheduler = Scheduler.start_scheduler()
-
-
-# async def send_msg(channelID, text):
-#     channel = client.get_channel(channelID)
-#     await channel.send(text)
 
 
 @client.command()
@@ -49,6 +47,17 @@ async def idiom(ctx):
 async def add_meeting(ctx, *args):
     await ctx.send(GoogleAPI.add_to_schedule(GoogleAPI.google_auth(), ' '.join(args)))
 
+
+
+@scheduler.scheduled_job('interval', hours=24, start_date='2021-12-01 16:00:00')
+async def check_for_snow():
+    channel = client.get_channel(channel_id)
+    await channel.send(weather.post_weather())
+
+
+@client.command()
+async def snow(ctx):
+    await ctx.send(weather.post_weather())
 
 while True:
     client.run(DiscordBotToken)

@@ -3,7 +3,7 @@ channel_id.txt
 credentials.json
 token.json
 token.txt
-
+weather_config.txt
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
