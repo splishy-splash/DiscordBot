@@ -56,8 +56,8 @@ async def check_for_snow():
 
 
 @client.command()
-async def snow(ctx):
-    await ctx.send(weather.post_weather())
+async def snow(ctx, *args):
+    await ctx.send(weather.post_weather(args))
 
 while True:
     client.run(DiscordBotToken)

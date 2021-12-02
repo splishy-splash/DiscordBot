@@ -3,11 +3,16 @@ import json
 import datetime
 
 
-def check_weather():
+def check_weather(zip):
     snow_times = []
-    with open('weather_config.txt', 'r') as f:
-        zipcode = f.readline()
-        rapidapikey = f.readline()
+    if zip == ():
+        with open('weather_config.txt', 'r') as f:
+            zipcode = f.readline()
+            rapidapikey = f.readline()
+    else:
+        zipcode = ''.join(zip)
+        with open('weather_config.txt', 'r') as f:
+            rapidapikey = f.readlines()[1]
 
     url = "https://community-open-weather-map.p.rapidapi.com/forecast"
     querystring = {"units":"standard","zip":zipcode.strip()}
@@ -35,5 +40,5 @@ def format_message(snow_list):
         message = 'No snow!'
     return message
 
-def post_weather():
-    return format_message(check_weather())
+def post_weather(args):
+    return format_message(check_weather(args))
